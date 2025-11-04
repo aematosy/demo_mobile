@@ -3,7 +3,7 @@
   "appium:automationName": "XCUITest",
   "appium:deviceName": "iPhone 14",
   "appium:platformVersion": "16.0",
-  "appium:app": "D:/app_test/demostore.ipa",
+  "app": "apps/android/demostore.ipa",
   "appium:bundleId": "com.saucelabs.mydemoapp.ios",
   "appium:noReset": true,
   "appium:unicodeKeyboard": true,

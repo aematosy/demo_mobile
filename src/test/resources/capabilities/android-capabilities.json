@@ -4,7 +4,7 @@
   "deviceName": "Pixel9TEST",
   "avd": "Pixel9TEST",
   "platformVersion": "16",
-  "app": "D:/app_test/demostore.apk",
+  "app": "apps/android/demostore.apk",
   "appPackage": "com.saucelabs.mydemoapp.android",
   "appActivity": "com.saucelabs.mydemoapp.android.view.activities.SplashActivity",
   "appWaitActivity": "com.saucelabs.mydemoapp.android.view.activities.*",
