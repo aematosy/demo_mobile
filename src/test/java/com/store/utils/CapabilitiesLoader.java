@@ -18,28 +18,38 @@ public class CapabilitiesLoader {
      * @return MutableCapabilities configuradas
      */
     public static MutableCapabilities loadCapabilities(String platform) {
-        // Por defecto usa el nombre de plataforma + -capabilities.json
-        String fileName = platform.toLowerCase() + "-capabilities.json";
+        // OBTENER ENVIRONMENT Y DEVICE TYPE
+        String environment = System.getProperty("environment", "android").toLowerCase();
+        String deviceType = System.getProperty("device.type", "emulator").toLowerCase();
 
-        // Puedes personalizar el nombre del archivo vía system property
-        // Ejemplo: -Dcapabilities.android.file=android-custom.json
-        String customFile = System.getProperty("capabilities." + platform + ".file");
+        System.out.println("\n===== CAPABILITIES LOADER =====");
+        System.out.println("   Platform recibida: " + platform);
+        System.out.println("   Environment: " + environment);
+        System.out.println("   Device Type: " + deviceType);
+
+        // CONSTRUIR EL NOMBRE DEL ARCHIVO
+        // Formato: {environment}-{deviceType}-capabilities.json
+        // Ejemplo: android-real-capabilities.json, ios-simulator-capabilities.json
+        String fileName = environment + "-" + deviceType + "-capabilities.json";
+
+        // Permitir override via system property
+        String customFile = System.getProperty("capabilities." + environment + "." + deviceType + ".file");
         if (customFile != null && !customFile.isEmpty()) {
             fileName = customFile;
+            System.out.println("   Usando archivo personalizado: " + fileName);
         }
 
         String resourcePath = CAPABILITIES_BASE_PATH + fileName;
 
         try {
-            System.out.println("📄 Cargando capabilities desde: " + resourcePath);
-            System.out.println("   Platform: " + platform);
-            System.out.println("   File: " + fileName);
+            System.out.println("   Cargando desde: " + resourcePath);
 
             // Cargar desde resources usando ClassLoader
             InputStream inputStream = CapabilitiesLoader.class.getResourceAsStream(resourcePath);
 
             if (inputStream == null) {
-                throw new RuntimeException("Archivo de capabilities no encontrado: " + resourcePath);
+                throw new RuntimeException("Archivo de capabilities no encontrado: " + resourcePath +
+                        "\n   Verifica que existe el archivo en src/test/resources/capabilities/");
             }
 
             String content = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
@@ -56,9 +66,11 @@ public class CapabilitiesLoader {
             }
 
             // Agregar capabilities adicionales desde system properties (si existen)
-            addAdditionalCapabilities(capabilities, platform);
+            addAdditionalCapabilities(capabilities, environment);
 
-            System.out.println("Capabilities cargadas: " + capabilities.asMap().size() + " propiedades");
+            System.out.println("   Capabilities cargadas: " + capabilities.asMap().size() + " propiedades");
+            System.out.println("===================================\n");
+
             return capabilities;
 
         } catch (IOException e) {
@@ -79,7 +91,7 @@ public class CapabilitiesLoader {
             // Buscar propiedades que empiecen con "appium."
             if (keyStr.startsWith("appium.")) {
                 String capabilityKey = keyStr.substring(7); // Remover "appium."
-                System.out.println("🔧 Sobrescribiendo capability: appium:" + capabilityKey + " = " + value);
+                System.out.println("   Sobrescribiendo capability: appium:" + capabilityKey + " = " + value);
 
                 Object convertedValue = convertValue(value.toString());
                 capabilities.setCapability("appium:" + capabilityKey, convertedValue);
@@ -89,23 +101,23 @@ public class CapabilitiesLoader {
 
     /**
      * Agrega una capability al objeto MutableCapabilities
+     * CORREGIDO: No duplicar el prefijo appium:
      */
     private static void addCapability(MutableCapabilities capabilities, String key, Object value) {
-        if (value instanceof Integer) {
-            if (key.equals("platformName") || key.equals("automationName")) {
-                capabilities.setCapability(key, value);
-            } else {
-                capabilities.setCapability("appium:" + key, value);
-            }
-        } else if (value instanceof Boolean) {
-            capabilities.setCapability("appium:" + key, value);
-        } else {
-            if (key.equals("platformName") || key.equals("automationName")) {
-                capabilities.setCapability(key, value.toString());
-            } else {
-                capabilities.setCapability("appium:" + key, value.toString());
-            }
+        // Si la key ya tiene "appium:" NO lo agregues de nuevo
+        if (key.startsWith("appium:")) {
+            capabilities.setCapability(key, value);
+            return;
         }
+
+        // Si es platformName o automationName, van SIN prefijo appium:
+        if (key.equals("platformName") || key.equals("automationName")) {
+            capabilities.setCapability(key, value);
+            return;
+        }
+
+        // Para el resto, agregar prefijo appium:
+        capabilities.setCapability("appium:" + key, value);
     }
 
     /**
@@ -122,7 +134,7 @@ public class CapabilitiesLoader {
         try {
             return Integer.parseInt(value);
         } catch (NumberFormatException e) {
-            // No es un número, devolver como String
+            // No es un numero, devolver como String
         }
 
         return value;
@@ -132,7 +144,7 @@ public class CapabilitiesLoader {
      * Imprime las capabilities cargadas para debug
      */
     public static void printCapabilities(MutableCapabilities capabilities) {
-        System.out.println("\n📋 Capabilities finales:");
+        System.out.println("\nCapabilities finales:");
         capabilities.asMap().forEach((key, value) ->
                 System.out.println("   • " + key + " = " + value + " (" + value.getClass().getSimpleName() + ")")
         );

@@ -1,0 +1,17 @@
+{
+  "platformName": "Android",
+  "appium:automationName": "UiAutomator2",
+  "appium:udid": "R58N73X1T7M",
+  "appium:deviceName": "Samsung Real Device",
+  "appium:platformVersion": "14",
+  "appium:app": "apps/android/demostore.apk",
+  "appium:appPackage": "com.saucelabs.mydemoapp.android",
+  "appium:appActivity": "com.saucelabs.mydemoapp.android.view.activities.SplashActivity",
+  "appium:noReset": false,
+  "appium:fullReset": false,
+  "appium:autoGrantPermissions": true,
+  "appium:newCommandTimeout": 120,
+  "appium:uiautomator2ServerLaunchTimeout": 90000,
+  "appium:adbExecTimeout": 60000,
+  "appium:androidInstallTimeout": 120000
+}
