@@ -29,7 +29,7 @@ public class CapabilitiesLoader {
 
         // CONSTRUIR EL NOMBRE DEL ARCHIVO
         // Formato: {environment}-{deviceType}-capabilities.json
-        // Ejemplo: android-real-capabilities.json, ios-simulator-capabilities.json
+        // Ejemplo: android-real-capabilities.json, ios-emulator-capabilities.json
         String fileName = environment + "-" + deviceType + "-capabilities.json";
 
         // Permitir override via system property

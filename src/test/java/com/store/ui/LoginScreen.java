@@ -30,25 +30,25 @@ public class LoginScreen {
 
     // ----------- iOS -----------
     public static final Target MENU_BUTTON_IOS = Target.the("botón de menú (iOS)")
-            .located(By.xpath("//android.widget.ImageView[@content-desc='View menu']"));
+            .located(By.xpath("//XCUIElementTypeImage[@name='Menu Icons']"));
 
     public static final Target LOGIN_OPTION_MENU_IOS = Target.the("opción login en menú (iOS)")
-            .located(By.xpath("//android.widget.TextView[@content-desc='Login Menu Item']"));
+            .located(By.xpath("//XCUIElementTypeButton[@name='LogOut-menu-item']"));
 
     public static final Target LOGIN_SCREEN_TITLE_IOS = Target.the("titulo de pantalla de login (iOS)")
-            .located(By.xpath("//android.widget.TextView[@resource-id='com.saucelabs.mydemoapp.android:id/loginTV']"));
+            .located(By.xpath("(//XCUIElementTypeStaticText[@name='Login'])[1]"));
 
     public static final Target USERNAME_FIELD_IOS = Target.the("campo de usuario (iOS)")
-            .located(By.xpath("//XCUIElementTypeTextField[@name='username']"));
+            .located(By.xpath("//XCUIElementTypeTextField"));
 
     public static final Target PASSWORD_FIELD_IOS = Target.the("campo de contraseña (iOS)")
-            .located(By.xpath("//XCUIElementTypeSecureTextField[@name='password']"));
+            .located(By.xpath("//XCUIElementTypeSecureTextField"));
 
     public static final Target LOGIN_BUTTON_IOS = Target.the("botón de login (iOS)")
-            .located(By.xpath("//XCUIElementTypeButton[@name='loginBtn']"));
+            .located(By.xpath("//XCUIElementTypeButton[@name='Login']"));
 
     public static final Target LOGOUT_OPTION_MENU_IOS = Target.the("opción logout en menú (iOS)")
-            .located(By.xpath("//android.widget.TextView[@content-desc='Logout Menu Item']"));
+            .located(By.xpath("//XCUIElementTypeButton[@name='LogOut-menu-item']"));
 
     // ----------- MÉTODOS DINÁMICOS -----------
 

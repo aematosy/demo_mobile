@@ -28,7 +28,7 @@ public class ProductsScreen {
 
     public static final Target PRODUCTS_TITLE_IOS =
             Target.the("products title")
-                    .located(By.xpath("//android.widget.TextView[@content-desc='titleeeeeee']"));
+                    .located(By.xpath("//XCUIElementTypeStaticText[@name='title']"));
 
     // ----------- MÉTODOS DINÁMICOS -----------
     public static Target title_product() {

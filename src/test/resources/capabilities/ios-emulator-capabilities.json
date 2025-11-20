@@ -1,0 +1,12 @@
+{
+  "platformName": "iOS",
+  "automationName": "XCUITest",
+  "deviceName": "iPhone 17 Pro Max",
+  "platformVersion": "26.1",
+  "app": "apps/ios/demostore.app",
+  "noReset": false,
+  "fullReset": false,
+  "appium:connectHardwareKeyboard": true,
+  "appium:sendKeyStrategy": "setValue"
+}
+

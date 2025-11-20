@@ -6,7 +6,7 @@ Feature: Login functionality
   Background:
     Given User is on the products screen
 
-  @android @loginandroid
+  @android @loginandroid @ios
   Scenario: Successful login on Android
     When the user opens the menu
     And the user selects Log In
@@ -15,8 +15,3 @@ Feature: Login functionality
     Then the Products screen is displayed
     And the menu shows the option Log Out
 
-  @ios @login
-  Scenario: Successful login on iOS
-    Given User is on the login screen
-    When he logs in with valid credentials
-    Then he should see the products screen
